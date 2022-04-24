@@ -37,6 +37,7 @@ SUBDIRS :=
 
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS +=  \
+../interrupt.c \
 ../main.c
 
 
@@ -47,20 +48,24 @@ ASM_SRCS +=
 
 
 OBJS +=  \
+interrupt.o \
 main.o
 
 OBJS_AS_ARGS +=  \
+interrupt.o \
 main.o
 
 C_DEPS +=  \
+interrupt.d \
 main.d
 
 C_DEPS_AS_ARGS +=  \
+interrupt.d \
 main.d
 
-OUTPUT_FILE_PATH +=sevenSegment.elf
+OUTPUT_FILE_PATH +=Stop\ Watch.elf
 
-OUTPUT_FILE_PATH_AS_ARGS +=sevenSegment.elf
+OUTPUT_FILE_PATH_AS_ARGS +="Stop Watch.elf"
 
 ADDITIONAL_DEPENDENCIES:=
 
@@ -72,13 +77,27 @@ LINKER_SCRIPT_DEP+=
 
 
 # AVR32/GNU C Compiler
-./main.o: .././main.c
+./interrupt.o: .././interrupt.c
 	@echo Building file: $<
 	@echo Invoking: AVR/GNU C Compiler : 5.4.0
-	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -DDEBUG  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.6.364\include"  -Og -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -g2 -Wall -mmcu=atmega32 -B "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.6.364\gcc\dev\atmega32" -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
+	$(QUOTE)E:\IEEE\Empedded\what you need\programs\Atmel_Studio_7.0.1645x86-x64\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -DDEBUG  -I"E:\IEEE\Empedded\what you need\programs\Atmel_Studio_7.0.1645x86-x64\7.0\Packs\atmel\ATmega_DFP\1.6.364\include"  -Og -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -g2 -Wall -mmcu=atmega32 -B "E:\IEEE\Empedded\what you need\programs\Atmel_Studio_7.0.1645x86-x64\7.0\Packs\atmel\ATmega_DFP\1.6.364\gcc\dev\atmega32" -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
 	@echo Finished building: $<
 	
 
+./main.o: .././main.c
+	@echo Building file: $<
+	@echo Invoking: AVR/GNU C Compiler : 5.4.0
+	$(QUOTE)E:\IEEE\Empedded\what you need\programs\Atmel_Studio_7.0.1645x86-x64\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -DDEBUG  -I"E:\IEEE\Empedded\what you need\programs\Atmel_Studio_7.0.1645x86-x64\7.0\Packs\atmel\ATmega_DFP\1.6.364\include"  -Og -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -g2 -Wall -mmcu=atmega32 -B "E:\IEEE\Empedded\what you need\programs\Atmel_Studio_7.0.1645x86-x64\7.0\Packs\atmel\ATmega_DFP\1.6.364\gcc\dev\atmega32" -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
+	@echo Finished building: $<
+	
+
+
+./%.o: .././%.c
+	@echo Building file: $<
+	@echo Invoking: AVR/GNU C Compiler : 5.4.0
+	$(QUOTE)E:\IEEE\Empedded\what you need\programs\Atmel_Studio_7.0.1645x86-x64\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -DDEBUG  -I"E:\IEEE\Empedded\what you need\programs\Atmel_Studio_7.0.1645x86-x64\7.0\Packs\atmel\ATmega_DFP\1.6.364\include"  -Og -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -g2 -Wall -mmcu=atmega32 -B "E:\IEEE\Empedded\what you need\programs\Atmel_Studio_7.0.1645x86-x64\7.0\Packs\atmel\ATmega_DFP\1.6.364\gcc\dev\atmega32" -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
+	@echo Finished building: $<
+	
 
 
 
@@ -105,13 +124,13 @@ all: $(OUTPUT_FILE_PATH) $(ADDITIONAL_DEPENDENCIES)
 $(OUTPUT_FILE_PATH): $(OBJS) $(USER_OBJS) $(OUTPUT_FILE_DEP) $(LIB_DEP) $(LINKER_SCRIPT_DEP)
 	@echo Building target: $@
 	@echo Invoking: AVR/GNU Linker : 5.4.0
-	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE) -o$(OUTPUT_FILE_PATH_AS_ARGS) $(OBJS_AS_ARGS) $(USER_OBJS) $(LIBS) -Wl,-Map="sevenSegment.map" -Wl,--start-group -Wl,-lm  -Wl,--end-group -Wl,--gc-sections -mmcu=atmega32 -B "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.6.364\gcc\dev\atmega32"  
+	$(QUOTE)E:\IEEE\Empedded\what you need\programs\Atmel_Studio_7.0.1645x86-x64\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE) -o$(OUTPUT_FILE_PATH_AS_ARGS) $(OBJS_AS_ARGS) $(USER_OBJS) $(LIBS) -Wl,-Map="Stop Watch.map" -Wl,--start-group -Wl,-lm  -Wl,--end-group -Wl,--gc-sections -mmcu=atmega32 -B "E:\IEEE\Empedded\what you need\programs\Atmel_Studio_7.0.1645x86-x64\7.0\Packs\atmel\ATmega_DFP\1.6.364\gcc\dev\atmega32"  
 	@echo Finished building target: $@
-	"C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-objcopy.exe" -O ihex -R .eeprom -R .fuse -R .lock -R .signature -R .user_signatures  "sevenSegment.elf" "sevenSegment.hex"
-	"C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-objcopy.exe" -j .eeprom  --set-section-flags=.eeprom=alloc,load --change-section-lma .eeprom=0  --no-change-warnings -O ihex "sevenSegment.elf" "sevenSegment.eep" || exit 0
-	"C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-objdump.exe" -h -S "sevenSegment.elf" > "sevenSegment.lss"
-	"C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-objcopy.exe" -O srec -R .eeprom -R .fuse -R .lock -R .signature -R .user_signatures "sevenSegment.elf" "sevenSegment.srec"
-	"C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-size.exe" "sevenSegment.elf"
+	"E:\IEEE\Empedded\what you need\programs\Atmel_Studio_7.0.1645x86-x64\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-objcopy.exe" -O ihex -R .eeprom -R .fuse -R .lock -R .signature -R .user_signatures  "Stop Watch.elf" "Stop Watch.hex"
+	"E:\IEEE\Empedded\what you need\programs\Atmel_Studio_7.0.1645x86-x64\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-objcopy.exe" -j .eeprom  --set-section-flags=.eeprom=alloc,load --change-section-lma .eeprom=0  --no-change-warnings -O ihex "Stop Watch.elf" "Stop Watch.eep" || exit 0
+	"E:\IEEE\Empedded\what you need\programs\Atmel_Studio_7.0.1645x86-x64\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-objdump.exe" -h -S "Stop Watch.elf" > "Stop Watch.lss"
+	"E:\IEEE\Empedded\what you need\programs\Atmel_Studio_7.0.1645x86-x64\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-objcopy.exe" -O srec -R .eeprom -R .fuse -R .lock -R .signature -R .user_signatures "Stop Watch.elf" "Stop Watch.srec"
+	"E:\IEEE\Empedded\what you need\programs\Atmel_Studio_7.0.1645x86-x64\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-size.exe" "Stop Watch.elf"
 	
 	
 
@@ -123,5 +142,5 @@ $(OUTPUT_FILE_PATH): $(OBJS) $(USER_OBJS) $(OUTPUT_FILE_DEP) $(LIB_DEP) $(LINKER
 clean:
 	-$(RM) $(OBJS_AS_ARGS) $(EXECUTABLES)  
 	-$(RM) $(C_DEPS_AS_ARGS)   
-	rm -rf "sevenSegment.elf" "sevenSegment.a" "sevenSegment.hex" "sevenSegment.lss" "sevenSegment.eep" "sevenSegment.map" "sevenSegment.srec" "sevenSegment.usersignatures"
+	rm -rf "Stop Watch.elf" "Stop Watch.a" "Stop Watch.hex" "Stop Watch.lss" "Stop Watch.eep" "Stop Watch.map" "Stop Watch.srec" "Stop Watch.usersignatures"
 	
